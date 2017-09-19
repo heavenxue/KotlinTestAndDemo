@@ -4,6 +4,7 @@ import java.io.OutputStream
 import java.nio.charset.Charset
 
 /**
+ * 偏函数
  * Created by Administrator on 2017/9/15.
  */
 
