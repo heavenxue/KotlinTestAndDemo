@@ -1,4 +1,4 @@
-package net.println.kotlin.DslDemo
+package net.println.kotlin.dslDemo
 
 /**
  * 创建一节点的接口，有一个渲染的方法，返回一个String
