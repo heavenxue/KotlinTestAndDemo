@@ -1,7 +1,6 @@
 package net.println.kotlin.coroutline.ui
 
-import net.println.kotlin.coroutline.basic.我要开始加载图片啦
-import net.println.kotlin.coroutline.basic.我要开始协程啦
+import net.println.kotlin.coroutline.async.*
 import net.println.kotlin.coroutline.common.log
 import javax.swing.JFrame.EXIT_ON_CLOSE
 
@@ -18,12 +17,23 @@ fun main(args: Array<String>) {
 
     frame.onButtonClick {
         log("协程之前")
-        我要开始协程啦 {
+        我要开始协程啦(DownloadContext(LOGO_URL)) {
             log("协程开始")
-            val imageData = 我要开始加载图片啦(LOGO_URL)
-            frame.setLogo(imageData)
-            log("协程之后")
+//            val imageData = 我要开始加载图片啦(LOGO_URL)
+            try {
+                val imageData= 我要开始耗时操作了 {
+                    //LOGO_URL是从外部获取的，这里是个变量，没啥问题，万一又线程安全的问题就毁了
+//                    我要开始加载图片(LOGO_URL)
+                    我要开始加载图片(this[DownloadContext]!!.url)
+                }
+                log("拿到图片")//是在线程池中执行的
+                //这个setLogo直接是在IO线程里面进行的操作，在非UI线程中操作了资源，在我要开始加载图片啦方法中改一下
+                frame.setLogo(imageData)
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
         }
+        log("协程之后")
     }
 
 //    frame.onButtonClick {
